@@ -111,31 +111,36 @@ log: Setting values less than 1 to 1 in order to calculate the log in positive s
 > Plot.NanoStringNorm(x = NanoString.mRNA.norm2, label.best.guess = TRUE, plot.type = c('missing'));
 > dev.off();
 ```
+
 We get a ~20% increase in the number of nonzero gene counts after normalization:
 
 ![NSM_missinglib](https://github.com/jshwaa/Final_Project_Nanostring/blob/master/Images/NSM_missinglib.png?raw=true)
-As NanoString is less prone to amplification bias and increased false positives as seen in RNAseq/microarrays, a more liberal background correction process could be argued for.
+As NanoString is less prone to amplification bias and increased false positives as seen in RNAseq/microarrays, a more liberal background correction process may be argued for in subsequent analysis.  
 
 ![NSM_RNAcontent](https://github.com/jshwaa/Final_Project_Nanostring/blob/master/Images/NSN_RNAcontent.png?raw=true)
-RNAcontent plots of highly expressed house-keeping genes vs. other highly expressed endogenous genes show that no samples deviate far from the best-fit line, indicating good sample distribution with no outliers.
+Returning to the origin normalization, RNAcontent plots of highly expressed house-keeping genes vs. other highly expressed endogenous genes show that no samples deviate far from the best-fit line, indicating good sample distribution with no outliers.
 
 ![NSM_BatchEffects](https://github.com/jshwaa/Final_Project_Nanostring/blob/master/Images/NSN_BatchEffects.png?raw=true)
-
+This plot indicates that there are indeed batch effects from the binary trait groups supplied to the normalization function earlier. For instance, it appears that HD samples have lower over RNA content, mean gene expression, and more missing genes compared to WT. 
 
 ![NSM_Norm](https://github.com/jshwaa/Final_Project_Nanostring/blob/master/Images/NSN_Norm.png?raw=true)
+Plots of normalizaiton factors supplied to the function (positive controls/negative controls) and adjusted RNA content allow for a per sample look at potential outliers that could be driving the previous graph's batch effects. Here, as none of the samples deviate too much from the mean (~<50%) it would appear that the batch effects are due to treatment and not individual sample outliers. The only potential confounder (sample 1) could be removed and the data reanalyzed to confirm this. 
+
 
 ![NSM_Controls](https://github.com/jshwaa/Final_Project_Nanostring/blob/master/Images/NSN_Controls.png?raw=true)
-
-![NSM_volcano](https://github.com/jshwaa/Final_Project_Nanostring/blob/master/Images/NSN_volcano.png?raw=true)
-
+Finally, QC provided by NanoStringNorm include plots of observed vs expected concentrations of controls ran with each sample. Positive controls should hvae similarly linear slopes across samples, while negative controls should not trend in any direction and instead have values near zero. By these parameters, all of the samples run through this NanoString appear sufficient for downstream analysis.
 
 
 ## Differential Expression
-To examine differential expression, NanoStringNorm also generates volcano plots of the log p-value vs. log fold-change:
+To examine differential expression, NanoStringNorm also generates volcano plots of the log p-value vs. log fold-change of the groups defined earlier as binary traits. With ```label.best.guess = TRUE``` the package will label the most significant genes (# of which is equal to label.n, here defined as 20) in descending order, with fold-change being used for tie-breaking: 
 ```
 > png('NanoStringNorm_Example_Plots_Volcano.png', units = 'in', height = 6, width = 6, res = 250, pointsize = 10);
-> Plot.NanoStringNorm(x = NanoString.mRNA.norm, label.best.guess = TRUE, plot.type = c('volcano'), title = FALSE);
+> Plot.NanoStringNorm(x = NanoString.mRNA.norm, label.best.guess = TRUE, label.n = 20, plot.type = c('volcano'), title = FALSE);
 > dev.off();
 ```
 
-Here, the dashed lines indicate p=0.05 and after Bonferroni correction. Point size is proportional to expression level. 
+Here, the dashed lines indicate p=0.05 and after Bonferroni correction. Point size is proportional to expression level. Fold change is measured as HD genes relative to WT:
+![NSM_volcano](https://github.com/jshwaa/Final_Project_Nanostring/blob/master/Images/NSM_volc.png?raw=true)
+
+As we can see, the most significantly different genes between WT and HD striatal tissue don't display massive fold changes in expression. Additionally, of all the top 25 significantly different genes, few if any are inflammation-related. Indeed, markers for the primary immune cell in the brain, microglia, are not significantly elevated in this model as they are in other neurodegenerative contexts (i.e. Alzheimer's, Parkinson's - these markers include Cx3cr1, trem2, Csf1r, specific in the brain for microglia). This indicates a lack of neuroinflammatory response in HD mice, which I have confirmed separately with immunohistochemistry on the same tissue. While further analysis is called for, the downregulation of Adora2a (gene #15), a hallmark of HD striatal tissue, supports the valiity of these results.
+
