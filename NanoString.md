@@ -1,7 +1,7 @@
-The NanoString nCounter technology is a medium-throughput method for the analysis of differentially expressed __pre-determined genes__ ("NanoString panels") that is unique in its direct, digital readout of mRNA counts from sample tissue. 
+The NanoString nCounter technology is a medium-throughput method for the analysis of differentially expressed __pre-determined__ genes ("NanoString panels") that is unique in its direct, digital readout of mRNA counts from sample tissue. 
 This juxtaposes the technique to those that require amplification steps (RNAseq), which may introduce greater false-positives, or those that depend on intensity measures for relative abundance (microarrays). As such, a number of methods have been designed to analyze this data.
 
-Here, I use the R package NanoStringNorm, developed by Waggot et al(ref) and available on CRAN, to process, perform QC checks, and analyze NanoString gene expression counts in striatal brain tissue collected from adult wild-type or R6/2 mice, a model of Huntington's disease (HD). I was interested in looking at changes in inflammatory and protein clearance genes contained in the Cancer panel due to HD, in the brain region most susceptible to the disease.
+Here, I use the R package NanoStringNorm, developed by Waggot et al[^1] and available on CRAN, to process, perform QC checks, and analyze NanoString gene expression counts in striatal brain tissue collected from adult wild-type or R6/2 mice, a model of Huntington's disease (HD). I was interested in looking at changes in inflammatory and protein clearance genes contained in the Cancer panel due to HD, in the brain region most susceptible to the disease.
 
 This can be quickly done using R alone, and will be outlined here as command line input in the R console for readability.
 ```
@@ -144,3 +144,4 @@ Here, the dashed lines indicate p=0.05 and after Bonferroni correction. Point si
 
 As we can see, the most significantly different genes between WT and HD striatal tissue don't display massive fold changes in expression. Additionally, of all the top 25 significantly different genes, few if any are inflammation-related. Indeed, markers for the primary immune cell in the brain, microglia, are not significantly elevated in this model as they are in other neurodegenerative contexts (i.e. Alzheimer's, Parkinson's - these markers include Cx3cr1, trem2, Csf1r, specific in the brain for microglia). This indicates a lack of neuroinflammatory response in HD mice, which I have confirmed separately with immunohistochemistry on the same tissue. While further analysis is called for, the downregulation of Adora2a (gene #15), a hallmark of HD striatal tissue, supports the valiity of these results.
 
+[^1]: Waggott D, Chu K, Yin S, Wouters BG, Liu FF, Boutros PC. NanoStringNorm: an extensible R package for the pre-processing of NanoString mRNA and miRNA data. Bioinformatics. 2012;28(11):1546-8.
