@@ -91,7 +91,7 @@ Standard deviation of gene expression across samples plotted against mean expres
 Normalization highly left-shifted the coefficient of variation, lowering the overall variation in the data across samples.
 
 ![NSM_missing](https://github.com/jshwaa/Final_Project_Nanostring/blob/master/Images/NSN_missing.png?raw=true)
-This plot of missing gene counts following normalization indicates that the expression of a moderate number of genes within this panel was undetectable in the striatal tissue. However, if we run a more liberal correction, using only the mean the negative probes as background (as opposod to mean and two standard deviations):
+This plot of missing gene counts following normalization indicates that the expression of a moderate number of genes within this panel was undetectable in the striatal tissue. However, if we run a more liberal correction, using only the mean of the negative probes as background (as opposod to mean and two standard deviations):
 
 ```
 >NanoString.mRNA.norm2 <- NanoStringNorm(x = NanoString.mRNA, CodeCount = 'geo.mean', Background = 'mean', SampleContent = 'housekeeping.geo.mean', round.values = TRUE, take.log = TRUE, traits = traits.geno);
@@ -121,7 +121,7 @@ As NanoString is less prone to amplification bias and increased false positives 
 Returning to the origin normalization, RNAcontent plots of highly expressed house-keeping genes vs. other highly expressed endogenous genes show that no samples deviate far from the best-fit line, indicating good sample distribution with no outliers.
 
 ![NSM_BatchEffects](https://github.com/jshwaa/Final_Project_Nanostring/blob/master/Images/NSN_BatchEffects.png?raw=true)
-This plot indicates that there are indeed batch effects from the binary trait groups supplied to the normalization function earlier. For instance, it appears that HD samples have lower over RNA content, mean gene expression, and more missing genes compared to WT. 
+This plot indicates that there are indeed batch effects from the binary trait groups supplied to the normalization function earlier. For instance, it appears that HD samples have lower overall RNA content, mean gene expression, and more missing genes compared to WT. 
 
 ![NSM_Norm](https://github.com/jshwaa/Final_Project_Nanostring/blob/master/Images/NSN_Norm.png?raw=true)
 Plots of normalizaiton factors supplied to the function (positive controls/negative controls) and adjusted RNA content allow for a per sample look at potential outliers that could be driving the previous graph's batch effects. Here, as none of the samples deviate too much from the mean (~<50%) it would appear that the batch effects are due to treatment and not individual sample outliers. The only potential confounder (sample 1) could be removed and the data reanalyzed to confirm this. 
