@@ -1,7 +1,7 @@
 The NanoString nCounter technology is a medium-throughput method for the analysis of differentially expressed __pre-determined genes__ ("NanoString panels") that is unique in its direct, digital readout of mRNA counts from sample tissue. 
 This juxtaposes the technique to those that require amplification steps (RNAseq), which may introduce greater false-positives, or those that depend on intensity measures for relative abundance (microarrays). As such, a number of methods have been designed to analyze this data.
 
-Here, I use the R package NanoStringNorm, developed by Waggot et al(ref) and available on CRAN, to process, perform QC checks, and analyze NanoString gene expression counts in striatal brain tissue collected from wild-type or R6/2 mice, a model of Huntington's disease (HD).
+Here, I use the R package NanoStringNorm, developed by Waggot et al(ref) and available on CRAN, to process, perform QC checks, and analyze NanoString gene expression counts in striatal brain tissue collected from adult wild-type or R6/2 mice, a model of Huntington's disease (HD). I was interested in looking at changes in inflammatory and protein clearance genes contained in the Cancer panel due to HD, in the brain region most susceptible to the disease.
 
 This can be quickly done using R alone, and will be outlined here as command line input in the R console for readability.
 ```
@@ -57,7 +57,7 @@ HDVeh124str  1  2
 ```
 
 Now use the normalization feature of the package, taking the geometric mean of positive and housekeeping controls as summary values for CodeCount and SampleContent, respectively, 
-and performing a Background correction of mean +- 2 standard deviations to normalize the data. Any samples with housekeeping gene levels three standard deviations from the overall mean will be flagged for review.
+and performing a Background correction of mean +- 2 standard deviations of the negative control values to normalize the data. Any samples with housekeeping gene levels three standard deviations from the overall mean will be flagged for review.
 
 ```
 > NanoString.mRNA.norm <- NanoStringNorm(x = NanoString.mRNA, CodeCount = 'geo.mean', Background = 'mean.2sd', SampleContent = 'housekeeping.geo.mean', round.values = TRUE, take.log = TRUE, traits = traits.geno);
@@ -73,6 +73,7 @@ Background: After correction 6 samples and 554
 
 log: Setting values less than 1 to 1 in order to calculate the log in positive space.
 ```
+This indicates that, as we chose a more stringent background correction, 196 genes on our panel were indistinguishable from background (and thus zero-valued after normalization) in >90% of samples.
 
 ## Quality Control
 NanoStringNorm's "Plot" feature generates a number of essential diagnostics for a quick examination of data integrity.
@@ -83,12 +84,48 @@ NanoStringNorm's "Plot" feature generates a number of essential diagnostics for 
 ```
 
 ![NSM_mean.sd](https://github.com/jshwaa/Final_Project_Nanostring/blob/master/Images/NSN_mean.sd.png?raw=true)
+Standard deviation of gene expression across samples plotted against mean expression shows that negative controls are undetectable while housekeeping genes have high means and little variation, as is expected. There is variation in a number of genes that could be due to genotype effects. 
+
+
 ![NSM_cv](https://github.com/jshwaa/Final_Project_Nanostring/blob/master/Images/NSN_cv.png?raw=true)
+Normalization highly left-shifted the coefficient of variation, lowering the overall variation in the data across samples.
+
 ![NSM_missing](https://github.com/jshwaa/Final_Project_Nanostring/blob/master/Images/NSN_missing.png?raw=true)
+This plot of missing gene counts following normalization indicates that the expression of a moderate number of genes within this panel was undetectable in the striatal tissue. However, if we run a more liberal correction, using only the mean the negative probes as background (as opposod to mean and two standard deviations):
+
+```
+>NanoString.mRNA.norm2 <- NanoStringNorm(x = NanoString.mRNA, CodeCount = 'geo.mean', Background = 'mean', SampleContent = 'housekeeping.geo.mean', round.values = TRUE, take.log = TRUE, traits = traits.geno);
+
+##############################
+### NanoStringNorm v1.2.1 ###
+##############################
+
+There are 6 samples and 750 Endogenous genes 
+
+Background: After correction 6 samples and 712 
+	Endogenous genes have less than 90% missing. 
+
+log: Setting values less than 1 to 1 in order to calculate the log in positive space.
+
+> png('NanoStringNorm_Example_Plots_%03d.png', units = 'in', height = 6, width = 6, res = 250, pointsize = 10);
+> Plot.NanoStringNorm(x = NanoString.mRNA.norm2, label.best.guess = TRUE, plot.type = c('missing'));
+> dev.off();
+```
+We get a ~20% increase in the number of nonzero gene counts after normalization:
+
+![NSM_missinglib](https://github.com/jshwaa/Final_Project_Nanostring/blob/master/Images/NSM_missinglib.png?raw=true)
+As NanoString is less prone to amplification bias and increased false positives as seen in RNAseq/microarrays, a more liberal background correction process could be argued for.
+
 ![NSM_RNAcontent](https://github.com/jshwaa/Final_Project_Nanostring/blob/master/Images/NSN_RNAcontent.png?raw=true)
+RNAcontent plots of highly expressed house-keeping genes vs. other highly expressed endogenous genes show that no samples deviate far from the best-fit line, indicating good sample distribution with no outliers.
+
 ![NSM_BatchEffects](https://github.com/jshwaa/Final_Project_Nanostring/blob/master/Images/NSN_BatchEffects.png?raw=true)
+
+
 ![NSM_Norm](https://github.com/jshwaa/Final_Project_Nanostring/blob/master/Images/NSN_Norm.png?raw=true)
+
 ![NSM_Controls](https://github.com/jshwaa/Final_Project_Nanostring/blob/master/Images/NSN_Controls.png?raw=true)
+
 ![NSM_volcano](https://github.com/jshwaa/Final_Project_Nanostring/blob/master/Images/NSN_volcano.png?raw=true)
 
 
