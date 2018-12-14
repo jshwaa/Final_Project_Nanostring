@@ -1,7 +1,7 @@
 The NanoString nCounter technology is a medium-throughput method for the analysis of differentially expressed __pre-determined__ genes ("NanoString panels") that is unique in its direct, digital readout of mRNA counts from sample tissue. 
 This juxtaposes the technique to those that require amplification steps (RNAseq), which may introduce greater false-positives, or those that depend on intensity measures for relative abundance (microarrays). As such, a number of methods have been designed to analyze this data.
 
-Here, I use the R package NanoStringNorm, developed by Waggot et al (1) and available on CRAN, to process, perform QC checks, and analyze NanoString gene expression counts in striatal brain tissue collected from adult wild-type or R6/2 mice, a model of Huntington's disease (HD). I was interested in looking at changes in inflammatory and protein clearance genes contained in the Cancer panel due to HD, in the brain region most susceptible to the disease.
+Here, I use the R package NanoStringNorm, developed by Waggot et al (1) and available on CRAN, to process, perform QC checks, and analyze NanoString gene expression counts in striatal brain tissue collected from adult wild-type or R6/2 mice, a model of Huntington's disease (HD). I was interested in looking at changes in inflammatory genes contained in the Cancer panel due to HD, in the brain region most susceptible to the disease.
 
 This can be quickly done using R alone, and will be outlined here as command line input in the R console for readability.
 ```
