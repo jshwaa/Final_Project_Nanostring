@@ -82,7 +82,16 @@ NanoStringNorm's "Plot" feature generates a number of essential diagnostics for 
 > dev.off();
 ```
 
-IMAGES
+![NSM_mean.sd](https://github.com/jshwaa/Final_Project_Nanostring/blob/master/Images/NSN_mean.sd.png?raw=true)
+![NSM_cv](https://github.com/jshwaa/Final_Project_Nanostring/blob/master/Images/NSN_cv.png?raw=true)
+![NSM_missing](https://github.com/jshwaa/Final_Project_Nanostring/blob/master/Images/NSN_missing.png?raw=true)
+![NSM_RNAcontent](https://github.com/jshwaa/Final_Project_Nanostring/blob/master/Images/NSN_RNAcontent.png?raw=true)
+![NSM_BatchEffects](https://github.com/jshwaa/Final_Project_Nanostring/blob/master/Images/NSN_BatchEffects.png?raw=true)
+![NSM_Norm](https://github.com/jshwaa/Final_Project_Nanostring/blob/master/Images/NSN_Norm.png?raw=true)
+![NSM_Controls](https://github.com/jshwaa/Final_Project_Nanostring/blob/master/Images/NSN_Controls.png?raw=true)
+![NSM_volcano](https://github.com/jshwaa/Final_Project_Nanostring/blob/master/Images/NSN_volcano.png?raw=true)
+
+
 
 ## Differential Expression
 To examine differential expression, NanoStringNorm also generates volcano plots of the log p-value vs. log fold-change:
