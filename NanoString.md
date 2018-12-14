@@ -128,7 +128,7 @@ Plots of normalizaiton factors supplied to the function (positive controls/negat
 
 
 ![NSM_Controls](https://github.com/jshwaa/Final_Project_Nanostring/blob/master/Images/NSN_Controls.png?raw=true)
-Finally, QC provided by NanoStringNorm include plots of observed vs expected concentrations of controls ran with each sample. Positive controls should hvae similarly linear slopes across samples, while negative controls should not trend in any direction and instead have values near zero. By these parameters, all of the samples run through this NanoString appear sufficient for downstream analysis.
+Finally, QC provided by NanoStringNorm include plots of observed vs expected concentrations of controls ran with each sample. Positive controls should have similarly linear slopes across samples, while negative controls should not trend in any direction and instead have values near zero. By these parameters, all of the samples run through this NanoString appear sufficient for downstream analysis.
 
 
 ## Differential Expression
